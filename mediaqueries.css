@@ -77,6 +77,20 @@
         padding: 4rem 1.5rem;
     }
 
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-photo-wrap {
+        order: -1;
+    }
+
+    .about-photo {
+        width: 120px;
+        height: 120px;
+    }
+
     .skills-grid {
         grid-template-columns: 1fr 1fr;
         gap: 1.75rem;
