@@ -70,7 +70,21 @@
     // link also copies the address and says so.
     const toast = $(".toast");
     const toastAddress = $(".toast-address");
+    const toastClose = $(".toast-close");
     let toastTimer = null;
+
+    const hideToast = () => {
+        clearTimeout(toastTimer);
+        toast.classList.remove("is-on");
+    };
+
+    toastClose.addEventListener("click", hideToast);
+    toast.addEventListener("click", (e) => {
+        if (e.target === toast) hideToast();
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && toast.classList.contains("is-on")) hideToast();
+    });
 
     $$('a[href^="mailto:"]').forEach((link) => {
         link.addEventListener("click", () => {
@@ -80,8 +94,9 @@
                 () => {
                     toastAddress.textContent = address;
                     toast.classList.add("is-on");
+                    toastClose.focus({ preventScroll: true });
                     clearTimeout(toastTimer);
-                    toastTimer = setTimeout(() => toast.classList.remove("is-on"), 2800);
+                    toastTimer = setTimeout(hideToast, 2800);
                 },
                 () => {
                     /* clipboard blocked: the mailto link still runs */

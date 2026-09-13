@@ -3189,7 +3189,8 @@ a:focus-visible .roll > span {
 
 /* ── TOAST ─────────────────────────────────────────── */
 
-/* Centred confirmation over a blurred page; clicks pass straight through */
+/* Centred confirmation over a blurred page. While it shows, the close button,
+   a click on the backdrop or Escape dismisses it straight away. */
 .toast {
     position: fixed;
     inset: 0;
@@ -3209,6 +3210,7 @@ a:focus-visible .roll > span {
 .toast.is-on {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transition: opacity 0.4s ease, visibility 0s;
 }
 
@@ -3230,6 +3232,31 @@ a:focus-visible .roll > span {
 
 .toast.is-on .toast-card {
     transform: none;
+}
+
+.toast-card {
+    position: relative;
+}
+
+.toast-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: rgba(11, 11, 10, 0.55);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toast-close:hover,
+.toast-close:focus-visible {
+    background: rgba(11, 11, 10, 0.08);
+    color: var(--ink);
 }
 
 .toast-check {
