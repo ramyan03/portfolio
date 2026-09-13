@@ -69,6 +69,7 @@
     // mailto: does nothing on a machine without a mail app, so every email
     // link also copies the address and says so.
     const toast = $(".toast");
+    const toastAddress = $(".toast-address");
     let toastTimer = null;
 
     $$('a[href^="mailto:"]').forEach((link) => {
@@ -77,7 +78,7 @@
             if (!navigator.clipboard) return;
             navigator.clipboard.writeText(address).then(
                 () => {
-                    toast.textContent = `Email copied: ${address}`;
+                    toastAddress.textContent = address;
                     toast.classList.add("is-on");
                     clearTimeout(toastTimer);
                     toastTimer = setTimeout(() => toast.classList.remove("is-on"), 2800);
@@ -91,10 +92,8 @@
 
     /* ── No-motion fallback ──────────────────────────── */
 
-    const loader = $(".loader");
-
     if (!animate) {
-        loader?.remove();
+        root.classList.add("is-ready");
         $$("[data-work-card]").forEach((card) => card.classList.add("in-view"));
         return;
     }
@@ -104,7 +103,8 @@
     gsap.registerPlugin(ScrollTrigger);
 
     if (window.Lenis) {
-        lenis = new Lenis({ lerp: 0.085, smoothWheel: true });
+        // Each wheel tick travels further, so a page takes less scrolling to reach.
+        lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1.6, smoothWheel: true });
         lenis.on("scroll", ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
@@ -165,44 +165,6 @@
         .from("[data-hero-fade]", { y: 30, autoAlpha: 0, duration: 1.1, stagger: 0.08 }, 0.55)
         .from(".scroll-cue", { autoAlpha: 0, duration: 1 }, 1)
         .from(".nav", { yPercent: -100, autoAlpha: 0, duration: 1 }, 0.4);
-
-    const runLoader = () => {
-        let seen = null;
-        try {
-            seen = sessionStorage.getItem("rc-loaded");
-            sessionStorage.setItem("rc-loaded", "1");
-        } catch (_) {
-            /* storage unavailable — show the loader */
-        }
-
-        if (seen || !loader) {
-            loader?.remove();
-            intro.play();
-            return;
-        }
-
-        lenis?.stop();
-        window.scrollTo(0, 0);
-        const count = $("[data-loader-count]", loader);
-        const progress = { value: 0 };
-
-        gsap.timeline({
-            onComplete: () => {
-                loader.remove();
-                lenis?.start();
-            },
-        })
-            .to(progress, {
-                value: 100,
-                duration: 1.8,
-                ease: "power3.inOut",
-                onUpdate: () => (count.textContent = Math.round(progress.value)),
-            })
-            .to(".loader-bar span", { scaleX: 1, duration: 1.8, ease: "power3.inOut" }, 0)
-            .to(".loader-inner", { yPercent: -40, autoAlpha: 0, duration: 0.6, ease: "power2.in" }, "+=0.1")
-            .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "-=0.2")
-            .add(() => intro.play(), "-=0.65");
-    };
 
     /* ── Hero scroll-out ─────────────────────────────── */
 
@@ -800,7 +762,7 @@
         const glide = (target) => {
             snapping = true;
             lenis.scrollTo(target, {
-                duration: 1,
+                duration: 0.8,
                 easing: (t) => 1 - Math.pow(1 - t, 3),
                 lock: true,
                 onComplete: () => {
@@ -823,7 +785,7 @@
             const vh = window.innerHeight;
             const from = lastSettled;
             const direction = Math.sign(y - from);
-            const committed = Math.abs(y - from) > vh * 0.1;
+            const committed = Math.abs(y - from) > vh * 0.06;
             lastSettled = y;
             if (direction === 0) return;
 
@@ -853,13 +815,14 @@
 
         lenis.on("scroll", () => {
             clearTimeout(settleTimer);
-            settleTimer = setTimeout(settle, 140);
+            settleTimer = setTimeout(settle, 100);
         });
     }
 
     /* ── Go ──────────────────────────────────────────── */
 
-    runLoader();
+    root.classList.add("is-ready");
+    intro.play();
 
     const refresh = () => ScrollTrigger.refresh();
     document.fonts?.ready.then(refresh);
