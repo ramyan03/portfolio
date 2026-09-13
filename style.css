@@ -610,6 +610,14 @@ a:focus-visible .roll > span {
     display: block;
 }
 
+/* Serif headlines have deep descenders (g, p); give their masks room so nothing is cut off */
+.display .line,
+.contact-title .line,
+.more-title .line {
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+}
+
 .hero-title .line--serif {
     text-align: right;
     text-transform: none;
