@@ -253,7 +253,7 @@
 
     $$("[data-lines]").forEach((el) => {
         gsap.from($$(".line-inner", el), {
-            yPercent: 110,
+            yPercent: 130,
             rotate: 3,
             duration: 1.3,
             stagger: 0.1,
