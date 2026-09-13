@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>og:image source — 1200x630</title>
+<!--
+  Source for Assets/og-image.jpg (the link-preview card).
+  Re-render after editing:
+    chrome --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+           --window-size=1200,630 --virtual-time-budget=8000 \
+           --screenshot=og.png Assets/og-template.html
+  then save og.png as Assets/og-image.jpg (quality ~88) and bump ?v= in index.html
+  so cached unfurls refresh. Palette and fonts mirror style.css.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{background:#0b0b0a;font-family:'Inter Tight',sans-serif;-webkit-font-smoothing:antialiased}
+  .card{position:relative;width:1200px;height:630px;background:#0b0b0a;overflow:hidden}
+  .photo{position:absolute;inset:0 0 0 620px;background-image:url(./ramyan-office.jpg);
+         background-size:cover;background-position:58% 42%}
+  .photo::after{content:'';position:absolute;inset:0;
+         background:linear-gradient(90deg,#0b0b0a 0%,rgba(11,11,10,.92) 14%,rgba(11,11,10,.25) 46%,rgba(11,11,10,.10) 100%)}
+  .inner{position:absolute;inset:0;padding:64px;display:flex;flex-direction:column}
+  .mark{font-family:'DM Mono',monospace;font-size:17px;font-weight:500;letter-spacing:.20em;color:#ece8df}
+  .mark span{color:#d4a843}
+  .stack{margin-top:auto;margin-bottom:auto;position:relative;z-index:2}
+  .first{font-size:98px;font-weight:700;letter-spacing:-.035em;line-height:.95;color:#ece8df}
+  .last{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:96px;
+        line-height:1.02;color:#d4a843;letter-spacing:-.01em;margin-top:2px}
+  .rule{width:556px;height:1px;background:#2a2a27;margin:38px 0 26px}
+  .role{font-size:31px;font-weight:500;letter-spacing:-.015em;color:#ece8df;line-height:1.3}
+  .role em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:#d4a843;font-weight:400;font-size:34px}
+</style></head>
+<body><div class="card">
+  <div class="photo"></div>
+  <div class="inner">
+    <div class="mark">RC<span>_</span></div>
+    <div class="stack">
+      <div class="first">RAMYAN</div>
+      <div class="last">Chelvanathan</div>
+      <div class="rule"></div>
+      <div class="role">Full-stack developer at <em>Setter Capital</em></div>
+    </div>
+  </div>
+</div></body></html>
